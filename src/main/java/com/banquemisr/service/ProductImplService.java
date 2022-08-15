@@ -19,7 +19,10 @@ public class ProductImplService implements IProductService{
         Product product=modelMapper.map(productDTO,Product.class);
         return productRepository.save(product);
     }
-
+    public Product getProduct(Long id)
+    {
+        return productRepository.getById(id);
+    }
     @Override
     public List<Product> getProducts() {
         return productRepository.findAll();

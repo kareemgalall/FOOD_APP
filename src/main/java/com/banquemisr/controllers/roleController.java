@@ -23,10 +23,12 @@ public class roleController {
         URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/role/save").toUriString());
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
+
     @PostMapping("/role/addToUser")
     public ResponseEntity<?>assignRoleToUser(@RequestBody String name,String roleName)
     {
         roleService.addRoleToUser(name,roleName);
         return ResponseEntity.ok().build();
     }
+
 }

@@ -20,26 +20,26 @@ public class userController {
 	private UserService userService;
 	@Autowired
 	private ModelMapper modelMapper;
+	@PostMapping("/register")
+	public void addNewUser(@RequestBody UserDTO userDTO)
+	{
+		app_user user=userService.createNewUser(userDTO);
+		UserDTO newUserDTO=modelMapper.map(user,UserDTO.class);
+	}
+
 	@GetMapping(value = "/getAllUsers")
 	public List<UserDTO> getAllUsers()
 	{
 		return userService.getAllUsers().stream().map(user -> modelMapper.map(user, UserDTO.class))
 				.collect(Collectors.toList());
 	}
+
 	@GetMapping("/getById/{id}")
 	@Transactional
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
 		app_user user= userService.getUserById(id);
-
-		System.out.println(user.getName());
 		UserDTO userDTO=modelMapper.map(user,UserDTO.class);
 		return ResponseEntity.ok().body(userDTO);
-	}
-	@PostMapping("/register")
-	public void addNewUser(@RequestBody UserDTO userDTO)
-	{
-		app_user user=userService.createNewUser(userDTO);
-		UserDTO newUserDTO=modelMapper.map(user,UserDTO.class);
 	}
 
 	@DeleteMapping("/deleteById/{id}")

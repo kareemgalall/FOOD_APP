@@ -1,5 +1,5 @@
 package com.banquemisr.security;
-
+/*
 import com.banquemisr.filter.CustomAuthenticationFilter;
 import com.banquemisr.filter.CustomAuthorizationFiler;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-/*
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
