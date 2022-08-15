@@ -6,12 +6,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    //private Long Id;
     private String name;
     private String price;
     private String description ;
     private Boolean isAddedToCart;
     private Integer boughtItemsCount;
+    private String category;
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     public String getName() {
         return name;
