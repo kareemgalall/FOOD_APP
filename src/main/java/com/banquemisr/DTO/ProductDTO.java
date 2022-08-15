@@ -20,7 +20,6 @@ public class ProductDTO {
         this.category = category;
     }
 
-
     public String getName() {
         return name;
     }
