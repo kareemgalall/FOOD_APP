@@ -23,7 +23,7 @@ public class userController {
 	private ModelMapper modelMapper;
 
 	@PostMapping("/register")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole(permitAll())")
 	public void register(@RequestBody UserDTO userDTO)
 	{
 		app_user user=userService.createNewUser(userDTO);
