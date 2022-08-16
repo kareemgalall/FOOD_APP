@@ -29,7 +29,7 @@ public class userController {
 		UserDTO newUserDTO=modelMapper.map(user,UserDTO.class);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("permitAll()")
 	@GetMapping(value = "/getAllUsers")
 	public List<UserDTO> getAllUsers()
 	{
@@ -37,7 +37,7 @@ public class userController {
 				.collect(Collectors.toList());
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+	@PreAuthorize("permitAll()")
 	@GetMapping("/getById/{id}")
 	@Transactional
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
@@ -47,7 +47,7 @@ public class userController {
 		return ResponseEntity.ok().body(userDTO);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("permitAll()")
 	@DeleteMapping("/deleteById/{id}")
 	public void deleteUser(@PathVariable Long id) {
 		userService.deleteUserById(id);

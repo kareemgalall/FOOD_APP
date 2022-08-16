@@ -21,7 +21,7 @@ public class productController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll())")
     @PostMapping("/add")
     public ResponseEntity<ProductDTO> addNewProduct(@RequestBody ProductDTO productDTO)
     {
@@ -48,7 +48,7 @@ public class productController {
                 .collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id)
     {
