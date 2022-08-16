@@ -19,20 +19,19 @@ import java.net.URI;
 public class roleController {
     @Autowired
     RoleImplService roleService;
-    //@PreAuthorize("permitAll()")
+    @PreAuthorize("permitAll()")
     @PostMapping("/add")
     public ResponseEntity<Role> addRole(@RequestBody Role role)
     {
         URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/role/save").toUriString());
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
-    //@PreAuthorize("permitAll()")
+    @PreAuthorize("permitAll()")
     @PostMapping("/assignToUser")
     public void assignRoleToUser(@RequestBody RoleToUser roleToUser)
     {
         roleService.addRoleToUser(roleToUser.getUsername(),roleToUser.getRolename());
     }
-
 }
 @Data
 class RoleToUser

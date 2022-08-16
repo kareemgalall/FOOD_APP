@@ -28,5 +28,4 @@ public class Product {
     private Integer boughtItemsCount;
     @Column(name="category")
     private String category;
-
 }

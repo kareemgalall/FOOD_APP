@@ -1,7 +1,7 @@
 package com.banquemisr.service;
 
 import com.banquemisr.entity.Role;
-import com.banquemisr.entity.User;
+import com.banquemisr.entity.app_user;
 import com.banquemisr.repository.RoleRepository;
 import com.banquemisr.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class RoleImplService implements IRoleService
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Adding role{} to user {} to db",roleName,username);
-        User user=userRepository.findByUsername(username);
+        app_user user=userRepository.findByUsername(username);
         Role role =roleRepository.findByName(roleName);
         user.getRoles().add(role);
     }

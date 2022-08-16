@@ -28,12 +28,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthorizationFiler extends OncePerRequestFilter {
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals("/user/login"))
         {
-            filterChain.doFilter(request,response);
+            try {
+                filterChain.doFilter(request, response);
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         else
         {

@@ -21,8 +21,7 @@ public class productController {
     @Autowired
     ModelMapper modelMapper;
 
-
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ProductDTO> addNewProduct(@RequestBody ProductDTO productDTO)
     {
@@ -30,8 +29,9 @@ public class productController {
         ProductDTO productDtoRespone=modelMapper.map(product,ProductDTO.class);
         return ResponseEntity.ok().body(productDtoRespone);
     }
+
     @Transactional
-    //@PreAuthorize("permitAll()")
+    @PreAuthorize("permitAll()")
     @GetMapping("/getById/{id}")
     public ProductDTO getProductById(@PathVariable Long id)
     {
@@ -40,7 +40,7 @@ public class productController {
         return productDTO;
     }
 
-    //@PreAuthorize("permitAll()")
+    @PreAuthorize("permitAll()")
     @GetMapping("/getAll")
     public List<ProductDTO> getAllProducts()
     {
@@ -48,11 +48,10 @@ public class productController {
                 .collect(Collectors.toList());
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id)
     {
         productImplService.deleteProduct(id);
     }
-
 }

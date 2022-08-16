@@ -12,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Table(name = "app_user")
 @Entity
-public class User
+public class app_user
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,6 @@ public class User
 	private String email;
 	@Column(name = "password")
 	private String password;
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles =new ArrayList<>();
 }
-

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.banquemisr.DTO.UserDTO;
-import com.banquemisr.entity.User;
+import com.banquemisr.entity.app_user;
 import com.banquemisr.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user =userRepository.findByUsername(username);
+		app_user user =userRepository.findByUsername(username);
 		if(user==null)
 		{
 			log.error("user not found");
@@ -54,19 +54,19 @@ public class UserService implements UserDetailsService {
 				user.getPassword(),authorities);
 	}
 
-	public List<User> getAllUsers(){
+	public List<app_user> getAllUsers(){
 		return userRepository.findAll();
 	}
 	
-	public User getUserById(Long id)
+	public app_user getUserById(Long id)
 	{
 		System.out.println(id);
 		return userRepository.getById(id);
 	}
 
-	public User createNewUser(UserDTO userDTO) {
+	public app_user createNewUser(UserDTO userDTO) {
 		if (userDTO != null) {
-			User newUser=modelMapper.map(userDTO, User.class);
+			app_user newUser=modelMapper.map(userDTO, app_user.class);
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 			roleImplService.addRoleToUser(newUser.getUsername(),"ROLE_USER");
 			return userRepository.save(newUser);
