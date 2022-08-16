@@ -41,6 +41,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/user/login").permitAll();
         http.authorizeRequests().antMatchers("/user/register").permitAll();
+        http.authorizeRequests().antMatchers("https://warm-sea-99266.herokuapp.com/swagger-ui/index.html").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthFilter);
         http.addFilterBefore(new CustomAuthorizationFiler(), UsernamePasswordAuthenticationFilter.class);
