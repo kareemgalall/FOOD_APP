@@ -3,7 +3,6 @@ package com.banquemisr.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 @Data
@@ -16,16 +15,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="name")
-    private String name;
+    @Column(name="title")
+    private String title;
     @Column(name="price")
     private String price;
+    @Column(name="image")
+    private String image;
     @Column(name="description")
     private String description ;
-    @Column(name="is_added_to_cart")
-    private Boolean isAddedToCart;
-    @Column(name="bought_items_count")
-    private Integer boughtItemsCount;
-    @Column(name="category")
-    private String category;
-}
+   }

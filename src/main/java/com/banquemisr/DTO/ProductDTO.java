@@ -6,26 +6,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    private String name;
+    private String title;
     private String price;
     private String description ;
-    private Boolean isAddedToCart;
-    private Integer boughtItemsCount;
-    private String category;
-    public String getCategory() {
-        return category;
+    private String image;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getImage() {
+        return image;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getPrice() {
@@ -44,19 +43,5 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public Boolean getAddedToCart() {
-        return isAddedToCart;
-    }
 
-    public void setAddedToCart(Boolean addedToCart) {
-        isAddedToCart = addedToCart;
-    }
-
-    public Integer getBoughtItemsCount() {
-        return boughtItemsCount;
-    }
-
-    public void setBoughtItemsCount(Integer boughtItemsCount) {
-        this.boughtItemsCount = boughtItemsCount;
-    }
 }
