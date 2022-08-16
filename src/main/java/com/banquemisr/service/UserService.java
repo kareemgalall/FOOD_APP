@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.banquemisr.DTO.UserDTO;
+import com.banquemisr.entity.Role;
 import com.banquemisr.entity.app_user;
+import com.banquemisr.repository.RoleRepository;
 import com.banquemisr.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class UserService implements UserDetailsService {
 	ModelMapper modelMapper;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	RoleRepository roleRepository;
 	@Autowired
 	RoleImplService roleImplService;
 	@Override
@@ -68,7 +72,8 @@ public class UserService implements UserDetailsService {
 		if (userDTO != null) {
 			app_user newUser=modelMapper.map(userDTO, app_user.class);
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-			roleImplService.addRoleToUser(newUser.getUsername(),"ROLE_USER");
+			Role role =roleRepository.findByName("ROLE_USER");
+			newUser.getRoles().add(role);
 			return userRepository.save(newUser);
 		}
 		return null;
