@@ -6,7 +6,7 @@ import com.banquemisr.service.ProductImplService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -20,9 +20,9 @@ public class productController {
     ProductImplService productImplService;
     @Autowired
     ModelMapper modelMapper;
-    @GetMapping("/getById/{id}")
-    @Transactional
 
+
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ProductDTO> addNewProduct(@RequestBody ProductDTO productDTO)
     {
@@ -30,7 +30,9 @@ public class productController {
         ProductDTO productDtoRespone=modelMapper.map(product,ProductDTO.class);
         return ResponseEntity.ok().body(productDtoRespone);
     }
-
+    @Transactional
+    //@PreAuthorize("permitAll()")
+    @GetMapping("/getById/{id}")
     public ProductDTO getProductById(@PathVariable Long id)
     {
         Product product=productImplService.getProduct(id);
@@ -38,6 +40,7 @@ public class productController {
         return productDTO;
     }
 
+    //@PreAuthorize("permitAll()")
     @GetMapping("/getAll")
     public List<ProductDTO> getAllProducts()
     {
@@ -45,6 +48,7 @@ public class productController {
                 .collect(Collectors.toList());
     }
 
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id)
     {
