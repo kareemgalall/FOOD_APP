@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class userController {
