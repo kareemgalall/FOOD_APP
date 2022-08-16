@@ -32,16 +32,17 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
-
+    private static final String[] whiteList={
+            "/user/login","/user/register",
+            "/swagger-ui/**","/v3/api-docs/**"
+    };
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthFilter=new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthFilter.setFilterProcessesUrl("/user/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/user/login").permitAll();
-        http.authorizeRequests().antMatchers("/user/register").permitAll();
-        http.authorizeRequests().antMatchers("https://warm-sea-99266.herokuapp.com/swagger-ui/index.html").permitAll();
+        http.authorizeRequests().antMatchers(whiteList).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthFilter);
         http.addFilterBefore(new CustomAuthorizationFiler(), UsernamePasswordAuthenticationFilter.class);
