@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 
 import org.json.simple.JSONObject;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class userController {
