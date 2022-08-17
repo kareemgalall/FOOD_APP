@@ -30,12 +30,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        addCORSHeaders(response);
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
        if(request.getServletPath().equals("/user/login"))
         {
             try {
                 filterChain.doFilter(request, response);
-                //response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
             }catch (Exception e)
             {
                 e.printStackTrace();
@@ -62,8 +62,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(username,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request,response);
-                    //response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
-
                 }
                 catch (Exception e)
                 {
@@ -78,8 +76,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             else
             {
                 filterChain.doFilter(request,response);
-               // response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
             }
         }
     }
+    private void addCORSHeaders(  HttpServletResponse response) {
+        response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
+        response.addHeader("Access-control-Allow-Methods", "POST , GET , OPTIONS , PUT , DELETE, PATCH");
+        response.addHeader("Access-control-Allow-Headers", "Authorization , Origin , content-type,Cookie");
+        response.addHeader("Access-control-Allow-Credentials", "true");
+        response.addHeader("Access-control-Max-Age", "1728000");
+        response.addHeader("Access-Control-Expose-Headers", "accessToken, refreshToken");
+    }
+
 }
