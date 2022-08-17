@@ -34,8 +34,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     private static final String[] whiteList={
             "/user/login","/user/register",
-            "/swagger-ui/**","/v3/api-docs/**",
-            "/product/getAll"
+            "/swagger-ui/**","/v3/api-docs/**"
+          //  "/product/getAll"
     };
     @Override
     protected void configure(HttpSecurity http) throws Exception {
