@@ -68,7 +68,7 @@ public class UserImplService implements UserDetailsService, IUserService {
 	{
 		try
 		{
-			Optional<appUser>user=Optional.of(userRepository.getById(id));
+			Optional<appUser>user=userRepository.findById(id);
 			return user;
 		}
 		catch (Exception e)

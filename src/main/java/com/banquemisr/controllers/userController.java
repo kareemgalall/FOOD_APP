@@ -48,11 +48,10 @@ public class userController {
 		Optional<appUser> user= userService.getUserById(id);
 		if (user.isPresent())
 		{
-			UserDTO userDTO=new UserDTO();
-			modelMapper.map(user.get(),userDTO);
+			UserDTO userDTO=modelMapper.map(user.get(),UserDTO.class);
 			return ResponseEntity.ok().body(userDTO);
 		}
-		return ResponseEntity.badRequest().build();
+		return ResponseEntity.badRequest().body("user not found");
 	}
 
 	@PreAuthorize("permitAll()")
