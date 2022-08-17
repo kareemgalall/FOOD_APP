@@ -23,14 +23,7 @@ public class InternshipApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean(){
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new CORSFilter());
-        registrationBean.setName("CORS FIlter");
-        registrationBean.addUrlPatterns("/*");
-        registrationBean.setOrder(1);
-        return registrationBean;
-    }
+
     /*@Bean
     CommandLineRunner run(roleImpService Service) {
         return args -> {
