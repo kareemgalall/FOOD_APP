@@ -2,13 +2,13 @@ package com.banquemisr.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.banquemisr.DTO.UserDTO;
-import com.banquemisr.entity.app_user;
-import com.banquemisr.filter.CustomAuthenticationFilter;
+import com.banquemisr.entity.appUser;
 import com.banquemisr.repository.UserRepository;
-import com.banquemisr.service.UserService;
+import com.banquemisr.service.impl.UserImplService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import org.json.simple.JSONObject;
 @RequestMapping("user")
 public class userController {
 	@Autowired
-	private UserService userService;
+	private UserImplService userService;
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
@@ -30,8 +30,7 @@ public class userController {
 	@PostMapping("/register")
 	public void register(@RequestBody UserDTO userDTO)
 	{
-		app_user user=userService.createNewUser(userDTO);
-		//UserDTO newUserDTO=modelMapper.map(user,UserDTO.class);
+		appUser user=userService.createNewUser(userDTO);
 	}
 
 	@PreAuthorize("permitAll()")
@@ -45,24 +44,32 @@ public class userController {
 	@PreAuthorize("permitAll()")
 	@GetMapping("/getById/{id}")
 	@Transactional
-	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
-		app_user user= userService.getUserById(id);
-		UserDTO userDTO=modelMapper.map(user,UserDTO.class);
-		return ResponseEntity.ok().body(userDTO);
+	public ResponseEntity<?> getUserById(@PathVariable Long id){
+		Optional<appUser> user= userService.getUserById(id);
+		if (user.isPresent())
+		{
+			UserDTO userDTO=new UserDTO();
+			modelMapper.map(user.get(),userDTO);
+			return ResponseEntity.ok().body(userDTO);
+		}
+		return ResponseEntity.badRequest().build();
 	}
 
 	@PreAuthorize("permitAll()")
 	@DeleteMapping("/deleteById/{id}")
-	public void deleteUser(@PathVariable Long id) {
-		userService.deleteUserById(id);
-		
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+		if(userService.deleteUserById(id))
+		{
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.badRequest().build();
 	}
 
 	@PreAuthorize("permitAll()")
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	@ResponseBody
 	public JSONObject currentUserName(Principal principal) {
-		app_user user=userRepository.findByUsername(principal.getName());
+		appUser user=userRepository.findByUsername(principal.getName());
 		JSONObject obj=new JSONObject();
 		obj.put("username",user.getUsername());
 		obj.put("email",user.getEmail());

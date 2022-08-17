@@ -1,7 +1,7 @@
 package com.banquemisr.security;
 
 import com.banquemisr.filter.CustomAuthenticationFilter;
-import com.banquemisr.filter.CustomAuthorizationFiler;
+import com.banquemisr.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -34,8 +32,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     private static final String[] whiteList={
             "/user/login","/user/register",
-            "/swagger-ui/**","/v3/api-docs/**"
-          //  "/product/getAll"
+            "/swagger-ui/**","/v3/api-docs/**",
+            "/product/**",
+            "/user/**"
     };
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,7 +45,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(whiteList).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthFilter);
-        http.addFilterBefore(new CustomAuthorizationFiler(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

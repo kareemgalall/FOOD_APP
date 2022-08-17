@@ -8,5 +8,5 @@ import java.util.List;
 public interface IProductService {
     public Product addProduct(ProductDTO productDTO) ;
     public List<Product> getProducts();
-    public void deleteProduct(Long productId);
+    public Boolean deleteProduct(Long productId);
 }

@@ -12,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Table(name = "app_user")
 @Entity
-public class app_user
+public class appUser
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

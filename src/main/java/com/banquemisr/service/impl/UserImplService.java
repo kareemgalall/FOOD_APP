@@ -1,14 +1,16 @@
-package com.banquemisr.service;
+package com.banquemisr.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.banquemisr.DTO.UserDTO;
 import com.banquemisr.entity.Role;
-import com.banquemisr.entity.app_user;
+import com.banquemisr.entity.appUser;
 import com.banquemisr.repository.RoleRepository;
 import com.banquemisr.repository.UserRepository;
+import com.banquemisr.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +25,7 @@ import javax.transaction.Transactional;
 
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class UserImplService implements UserDetailsService, IUserService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
@@ -37,7 +39,7 @@ public class UserService implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		app_user user =userRepository.findByUsername(username);
+		appUser user =userRepository.findByUsername(username);
 		if(user==null)
 		{
 			log.error("user not found");
@@ -57,20 +59,28 @@ public class UserService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getUsername(),
 				user.getPassword(),authorities);
 	}
-
-	public List<app_user> getAllUsers(){
+	@Override
+	public List<appUser> getAllUsers(){
 		return userRepository.findAll();
 	}
-	
-	public app_user getUserById(Long id)
+	@Override
+	public Optional<appUser> getUserById(Long id)
 	{
-		System.out.println(id);
-		return userRepository.getById(id);
+		try
+		{
+			Optional<appUser>user=Optional.of(userRepository.getById(id));
+			return user;
+		}
+		catch (Exception e)
+		{
+			return Optional.empty();
+		}
+		//return userRepository.getById(id);
 	}
-
-	public app_user createNewUser(UserDTO userDTO) {
+	@Override
+	public appUser createNewUser(UserDTO userDTO) {
 		if (userDTO != null) {
-			app_user newUser=modelMapper.map(userDTO, app_user.class);
+			appUser newUser=modelMapper.map(userDTO, appUser.class);
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 			Role role =roleRepository.findByName("ROLE_USER");
 			newUser.getRoles().add(role);
@@ -78,7 +88,19 @@ public class UserService implements UserDetailsService {
 		}
 		return null;
 	}
-	public void deleteUserById(Long id) {
-		userRepository.deleteById(id);
+	@Override
+	public Boolean deleteUserById(Long id) {
+		try
+		{
+			Optional<appUser> user=Optional.of(userRepository.getById(id));
+			if(user.isPresent()) {
+				userRepository.delete(user.get());
+			}
+			return user.isPresent();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 }

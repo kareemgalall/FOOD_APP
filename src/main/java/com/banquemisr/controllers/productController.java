@@ -2,7 +2,7 @@ package com.banquemisr.controllers;
 
 import com.banquemisr.DTO.ProductDTO;
 import com.banquemisr.entity.Product;
-import com.banquemisr.service.ProductImplService;
+import com.banquemisr.service.impl.ProductImplService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
@@ -34,11 +35,15 @@ public class productController {
     @Transactional
     @PreAuthorize("permitAll()")
     @GetMapping("/getById/{id}")
-    public ProductDTO getProductById(@PathVariable Long id)
+    public ResponseEntity<?> getProductById(@PathVariable Long id)
     {
-        Product product=productImplService.getProduct(id);
-        ProductDTO productDTO=modelMapper.map(product,ProductDTO.class);
-        return productDTO;
+        Optional<Product>product=productImplService.getProduct(id);
+        if(product.isPresent())
+        {
+            ProductDTO productDTO=modelMapper.map(product.get(),ProductDTO.class);
+            return ResponseEntity.ok().body(productDTO);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PreAuthorize("permitAll()")
@@ -51,8 +56,12 @@ public class productController {
 
     @PreAuthorize("permitAll()")
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable Long id)
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id)
     {
-        productImplService.deleteProduct(id);
+        if(productImplService.deleteProduct(id))
+        {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }
