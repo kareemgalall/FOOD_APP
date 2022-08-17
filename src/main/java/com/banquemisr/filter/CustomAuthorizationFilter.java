@@ -80,7 +80,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         }
     }
     private void addCORSHeaders(  HttpServletResponse response) {
-        response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
+        response.addHeader("Access-control-Allow-Origin", "196.204.198.65:4200");
         response.addHeader("Access-control-Allow-Methods", "POST , GET , OPTIONS , PUT , DELETE, PATCH");
         response.addHeader("Access-control-Allow-Headers", "Authorization , Origin , content-type,Cookie");
         response.addHeader("Access-control-Allow-Credentials", "true");
