@@ -50,14 +50,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(whiteList).permitAll().anyRequest()
                 .authenticated();
         http.addFilter(customAuthFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        ;
+        http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        /*http.cors().and().csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers(whiteList).permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
-       http.addFilter(customAuthFilter);*/
+
+
 
     }
     @Bean
@@ -70,10 +66,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception
     {
         return super.authenticationManagerBean();
+    }
+    @Bean
+    public CustomAuthorizationFilter jwtFilter  ()
+    {
+        return new CustomAuthorizationFilter();
     }
 }
