@@ -23,6 +23,7 @@ public class productController {
     ModelMapper modelMapper;
 
     @PreAuthorize("permitAll())")
+    @CrossOrigin(origins = "https://warm-sea-99266.herokuapp.com")
     @PostMapping("/add")
     public ResponseEntity<ProductDTO> addNewProduct(@RequestBody ProductDTO productDTO)
     {
@@ -32,6 +33,7 @@ public class productController {
     }
 
     @Transactional
+    @CrossOrigin(origins = "https://warm-sea-99266.herokuapp.com")
     @PreAuthorize("permitAll()")
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id)
@@ -46,6 +48,7 @@ public class productController {
     }
 
     @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "https://warm-sea-99266.herokuapp.com")
     @GetMapping("/getAll")
     public List<ProductDTO> getAllProducts()
     {
@@ -54,6 +57,7 @@ public class productController {
     }
 
     @PreAuthorize("permitAll()")
+    @CrossOrigin(origins = "https://warm-sea-99266.herokuapp.com")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id)
     {
