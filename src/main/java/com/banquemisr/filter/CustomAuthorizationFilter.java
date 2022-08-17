@@ -35,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         {
             try {
                 filterChain.doFilter(request, response);
-                response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
+                //response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
             }catch (Exception e)
             {
                 e.printStackTrace();
@@ -62,7 +62,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(username,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request,response);
-                    response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
+                    //response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
 
                 }
                 catch (Exception e)
@@ -78,7 +78,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             else
             {
                 filterChain.doFilter(request,response);
-                response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
+               // response.addHeader("Access-control-Allow-Origin", "https://localhost:4200");
             }
         }
     }
