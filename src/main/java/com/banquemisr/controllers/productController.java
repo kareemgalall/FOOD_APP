@@ -33,8 +33,8 @@ public class productController {
 
     @Transactional
     @PreAuthorize("permitAll()")
-    @GetMapping("/getById")
-    public ResponseEntity<?> getProductById(@RequestBody Long id)
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Long id)
     {
         Optional<Product>product=productImplService.getProduct(id);
         if(product.isPresent())
